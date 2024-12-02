@@ -119,17 +119,23 @@ contract MDXVesting is EIP712, Ownable, ReentrancyGuard {
     //-------modifier--------//
     //-----------------------//
     modifier ifVestingCampaignIsCancelled(bytes32 _vestingDetailID) {
-            vestingDetail memory _vestingDetail = s_VestingDetails[_vestingDetailID];
-            if (_vestingDetail.cancel == true){
-                revert MDXVestingCampaignIsCanceledError();
-            }
+        vestingDetail memory _vestingDetail = s_VestingDetails[_vestingDetailID];
+        if (_vestingDetail.cancel == true){
+            revert MDXVestingCampaignIsCanceledError();
+        }
         _;
     }
 
     //-----------------------//
     //-----CONSTRUCTOR-------//
     //-----------------------//
-    constructor(address _MonadexMultiSigAddress, ERC20 _token) Ownable(_MonadexMultiSigAddress) EIP712("MDXVesting", "1") {
+    constructor(
+        address _MonadexMultiSigAddress,
+         ERC20 _token
+    ) 
+         Ownable(_MonadexMultiSigAddress) 
+         EIP712("MDXVesting", "1") 
+    {
         if (_MonadexMultiSigAddress == address(0)) {
             revert MDXVestingZeroAddressError();
         }
